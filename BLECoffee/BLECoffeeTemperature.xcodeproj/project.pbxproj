@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C80D5D0B1BB613EF00740DE1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C80D5D0A1BB613EF00740DE1 /* Info.plist */; };
 		C870EF1D1B754467004E3C59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C870EF1C1B754467004E3C59 /* main.m */; };
 		C870EF201B754467004E3C59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C870EF1F1B754467004E3C59 /* AppDelegate.m */; };
 		C870EF281B754467004E3C59 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C870EF271B754467004E3C59 /* Images.xcassets */; };
-		C870EF371B754467004E3C59 /* BLETemperatureReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C870EF361B754467004E3C59 /* BLETemperatureReaderTests.m */; };
 		C870EF421B7554D6004E3C59 /* TemperatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C870EF411B7554D6004E3C59 /* TemperatureViewController.m */; };
 		C870EF4A1B75561E004E3C59 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C870EF491B75561E004E3C59 /* CoreBluetooth.framework */; };
 		C87150EC1BB6114100A3F75B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C87150EB1BB6114100A3F75B /* Info.plist */; };
@@ -19,25 +17,12 @@
 		C87150F21BB6118500A3F75B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C87150EF1BB6118500A3F75B /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		C870EF311B754467004E3C59 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C870EF0F1B754467004E3C59 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C870EF161B754467004E3C59;
-			remoteInfo = BLETemperatureReader;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		C80D5D0A1BB613EF00740DE1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C870EF171B754467004E3C59 /* BLECoffeeTemperature.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLECoffeeTemperature.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C870EF1C1B754467004E3C59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C870EF1E1B754467004E3C59 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C870EF1F1B754467004E3C59 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C870EF271B754467004E3C59 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C870EF301B754467004E3C59 /* BLECoffeeTemperature.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BLECoffeeTemperature.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C870EF361B754467004E3C59 /* BLETemperatureReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLETemperatureReaderTests.m; sourceTree = "<group>"; };
 		C870EF401B7554D6004E3C59 /* TemperatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperatureViewController.h; sourceTree = "<group>"; };
 		C870EF411B7554D6004E3C59 /* TemperatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TemperatureViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C870EF491B75561E004E3C59 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -53,13 +38,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C870EF4A1B75561E004E3C59 /* CoreBluetooth.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C870EF2D1B754467004E3C59 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +58,6 @@
 				C870EF191B754467004E3C59 /* BLECoffeeTemperature */,
 				C844FD041BB2139300905C7F /* Frameworks */,
 				C870EF181B754467004E3C59 /* Products */,
-				C870EF331B754467004E3C59 /* BLECoffeeTemperatureTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,7 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				C870EF171B754467004E3C59 /* BLECoffeeTemperature.app */,
-				C870EF301B754467004E3C59 /* BLECoffeeTemperature.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,23 +94,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C870EF331B754467004E3C59 /* BLECoffeeTemperatureTests */ = {
-			isa = PBXGroup;
-			children = (
-				C870EF361B754467004E3C59 /* BLETemperatureReaderTests.m */,
-				C870EF341B754467004E3C59 /* Supporting Files */,
-			);
-			path = BLECoffeeTemperatureTests;
-			sourceTree = "<group>";
-		};
-		C870EF341B754467004E3C59 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C80D5D0A1BB613EF00740DE1 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -155,24 +114,6 @@
 			productReference = C870EF171B754467004E3C59 /* BLECoffeeTemperature.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C870EF2F1B754467004E3C59 /* BLECoffeeTemperatureTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C870EF3D1B754467004E3C59 /* Build configuration list for PBXNativeTarget "BLECoffeeTemperatureTests" */;
-			buildPhases = (
-				C870EF2C1B754467004E3C59 /* Sources */,
-				C870EF2D1B754467004E3C59 /* Frameworks */,
-				C870EF2E1B754467004E3C59 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C870EF321B754467004E3C59 /* PBXTargetDependency */,
-			);
-			name = BLECoffeeTemperatureTests;
-			productName = BLETemperatureReaderTests;
-			productReference = C870EF301B754467004E3C59 /* BLECoffeeTemperature.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -185,10 +126,6 @@
 					C870EF161B754467004E3C59 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = TS3R2RE443;
-					};
-					C870EF2F1B754467004E3C59 = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = C870EF161B754467004E3C59;
 					};
 				};
 			};
@@ -206,7 +143,6 @@
 			projectRoot = "";
 			targets = (
 				C870EF161B754467004E3C59 /* BLECoffeeTemperature */,
-				C870EF2F1B754467004E3C59 /* BLECoffeeTemperatureTests */,
 			);
 		};
 /* End PBXProject section */
@@ -223,14 +159,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C870EF2E1B754467004E3C59 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C80D5D0B1BB613EF00740DE1 /* Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -244,23 +172,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C870EF2C1B754467004E3C59 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C870EF371B754467004E3C59 /* BLETemperatureReaderTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C870EF321B754467004E3C59 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C870EF161B754467004E3C59 /* BLECoffeeTemperature */;
-			targetProxy = C870EF311B754467004E3C59 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C87150ED1BB6118500A3F75B /* LaunchScreen.xib */ = {
@@ -388,40 +300,6 @@
 			};
 			name = Release;
 		};
-		C870EF3E1B754467004E3C59 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = BLECoffeeTemperatureTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = BLECoffeeTemperature;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BLECoffeeTemperature.app/BLECoffeeTemperature";
-			};
-			name = Debug;
-		};
-		C870EF3F1B754467004E3C59 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = BLECoffeeTemperatureTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = BLECoffeeTemperature;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BLECoffeeTemperature.app/BLECoffeeTemperature";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -439,15 +317,6 @@
 			buildConfigurations = (
 				C870EF3B1B754467004E3C59 /* Debug */,
 				C870EF3C1B754467004E3C59 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C870EF3D1B754467004E3C59 /* Build configuration list for PBXNativeTarget "BLECoffeeTemperatureTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C870EF3E1B754467004E3C59 /* Debug */,
-				C870EF3F1B754467004E3C59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

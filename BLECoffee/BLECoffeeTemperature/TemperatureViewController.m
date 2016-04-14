@@ -14,6 +14,7 @@
 #define TIMER_PAUSE_INTERVAL 10.0
 #define TIMER_SCAN_INTERVAL  2.0
 #define SENSOR_DATA_INDEX_TEMP_INFRARED 0
+#define SENSOR_DATA_INDEX_TEMP_AMBIENT  1
 #define DEFAULT_INITIAL_TEMP -9999
 
 // This could be simplified to "SensorTag" and check if it's a substring.
@@ -50,7 +51,8 @@
     [super viewDidLoad];
     
     self.lastTemperature = DEFAULT_INITIAL_TEMP;
-    
+
+    // presentation
     // Create the CBCentralManager.
     // NOTE: Creating the CBCentralManager with initWithDelegate will immediately call centralManagerDidUpdateState.
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
@@ -91,57 +93,6 @@
         NSLog(@"*** RESUMING SCAN!");
         [NSTimer scheduledTimerWithTimeInterval:TIMER_SCAN_INTERVAL target:self selector:@selector(pauseScan) userInfo:nil repeats:NO];
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-    }
-}
-
-- (void)cleanup {
-//    // See if we are subscribed to a characteristic on the peripheral
-//    if (self.sensorTag.services != nil) {
-//        for (CBService *service in self.sensorTag.services) {
-//            if (service.characteristics != nil) {
-//                for (CBCharacteristic *characteristic in service.characteristics) {
-//                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]]) {
-//                        if (characteristic.isNotifying) {
-//                            [self.sensorTag setNotifyValue:NO forCharacteristic:characteristic];
-//                            return;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-    [_centralManager cancelPeripheralConnection:self.sensorTag];
-}
-
-- (void)calculateTemperature:(NSData *)dataBytes {
-    // get the data's length - divide by two since we're creating an array that holds 16-bit (two-byte) values...
-    NSUInteger dataLength = dataBytes.length / 2;
-    
-    // create an array to contain the 16-bit values
-    uint16_t dataArray[dataLength];
-    for (int i = 0; i < dataLength; i++) {
-        dataArray[i] = 0;
-    }
-    
-    // extract the data from the dataBytes object
-    [dataBytes getBytes:&dataArray length:dataLength * sizeof(uint16_t)];
-    uint16_t rawInfraredTemp = dataArray[SENSOR_DATA_INDEX_TEMP_INFRARED];
-    NSLog(@"*** RAW INFRARED TEMP: %hu", rawInfraredTemp);
-    
-    // get the ambient temperature
-    double infraredTempC = ((double)rawInfraredTemp)/128;
-    double infraredTempF = [self fahrenheitFromCelsius:infraredTempC];
-    NSLog(@"*** INFRARED TEMPERATURE SENSOR (C/F): %f/%f", infraredTempC, infraredTempF);
-
-    NSInteger temp = (NSInteger)infraredTempF;
-    self.lastTemperature = temp;
-    NSLog(@"*** LAST TEMPERATURE CAPTURED: %ld F", temp);
-
-    // check to see if the app is active - if so, then update UI...
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if ((appDelegate.isActive) && (!appDelegate.isBackgrounded)) {
-        [self updateTemperatureDisplay];
     }
 }
 
@@ -208,14 +159,6 @@
 }
 
 
-#pragma mark - Utility Methods
-
-- (double)fahrenheitFromCelsius:(double)celsius {
-    double fahrenheit = (celsius * 1.8) + 32;
-    return fahrenheit;
-}
-
-
 #pragma mark - CBCentralManagerDelegate methods
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
@@ -235,6 +178,7 @@
         case CBCentralManagerStateResetting:
             state = @"The BLE Manager is resetting; a state update is pending.";
             break;
+        // presentation
         case CBCentralManagerStatePoweredOn:
         {
             showAlert = NO;
@@ -242,12 +186,15 @@
             NSLog(@"%@", state);
             self.keepScanning = YES;
             [NSTimer scheduledTimerWithTimeInterval:TIMER_SCAN_INTERVAL target:self selector:@selector(pauseScan) userInfo:nil repeats:NO];
-            //            // Option 1: Scan for all devices
-            //            [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+            
+            // Initiate Scan for Peripherals
+            //Option 1: Scan for all devices
+            [self.centralManager scanForPeripheralsWithServices:nil options:nil];
             
             // Option 2: Scan for devices that have the service you're interested in...
-            CBUUID *temperatureServiceUUID = [CBUUID UUIDWithString:UUID_TEMPERATURE_SERVICE];
-            [self.centralManager scanForPeripheralsWithServices:@[temperatureServiceUUID] options:nil];
+            //CBUUID *temperatureServiceUUID = [CBUUID UUIDWithString:UUID_TEMPERATURE_SERVICE];
+            //[self.centralManager scanForPeripheralsWithServices:@[temperatureServiceUUID] options:nil];
+            
             break;
         }
         case CBCentralManagerStateUnknown:
@@ -303,7 +250,7 @@
     // Now that we've successfully connected to the SensorTag, let's discover the services.
     // - NOTE:  we pass nil here to request ALL services be discovered.
     //          If there was a subset of services we were interested in, we could pass the UUIDs here.
-    //          Doing so saves batter life and saves time.
+    //          Doing so saves battery life and saves time.
     [peripheral discoverServices:nil];
 }
 
@@ -334,17 +281,17 @@
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     for (CBCharacteristic *characteristic in service.characteristics) {
-        uint8_t enableValue = 1;
-        NSData *enableBytes = [NSData dataWithBytes:&enableValue length:sizeof(uint8_t)];
-        
-        // Temperature
+        // Temperature Data Characteristic
         if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:UUID_TEMPERATURE_DATA]]) {
-            // Enable sensor notification
+            // Enable the IR Temperature Sensor notifications
             [self.sensorTag setNotifyValue:YES forCharacteristic:characteristic];
         }
-        
+
+        // Temperature Configuration Characteristic
         if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:UUID_TEMPERATURE_CONFIG]]) {
-            // Enable sensor
+            // Enable IR Temperature Sensor
+            uint8_t enableValue = 1;
+            NSData *enableBytes = [NSData dataWithBytes:&enableValue length:sizeof(uint8_t)];
             [self.sensorTag writeValue:enableBytes forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
         }
     }
@@ -362,6 +309,54 @@
         }
     }
 }
+
+
+#pragma mark - TI Sensor Tag Utility Methods
+
+- (double)fahrenheitFromCelsius:(double)celsius {
+    double fahrenheit = (celsius * 1.8) + 32;
+    return fahrenheit;
+}
+
+- (void)calculateTemperature:(NSData *)dataBytes {
+
+    // We'll get four bytes of data back, so we divide the byte count by two
+    // because we're creating an array that holds two 16-bit (two-byte) values
+    NSUInteger dataLength = dataBytes.length / 2;
+    int16_t dataArray[dataLength];
+    for (int i = 0; i < dataLength; i++) {
+        dataArray[i] = 0;
+    }
+    [dataBytes getBytes:&dataArray length:dataLength * sizeof(uint16_t)];
+    
+    // log the bytes
+    for (int i=0; i < dataLength; i++) {
+        uint16_t nextInt = dataArray[i];
+        NSLog(@"NEXT BYTE: %d", nextInt);
+    }
+    
+    uint16_t rawAmbientTemp = dataArray[SENSOR_DATA_INDEX_TEMP_AMBIENT];
+    double ambientTempC = ((double)rawAmbientTemp)/128;
+    double ambientTempF = [self fahrenheitFromCelsius:ambientTempC];
+    NSLog(@"*** AMBIENT TEMPERATURE SENSOR (C/F): %f/%f", ambientTempC, ambientTempF);
+    
+    uint16_t rawInfraredTemp = dataArray[SENSOR_DATA_INDEX_TEMP_INFRARED];
+    double infraredTempC = ((double)rawInfraredTemp)/128;
+    double infraredTempF = [self fahrenheitFromCelsius:infraredTempC];
+    NSLog(@"*** INFRARED TEMPERATURE SENSOR (C/F): %f/%f", infraredTempC, infraredTempF);
+    
+    NSInteger temp = (NSInteger)infraredTempF;
+    self.lastTemperature = temp;
+    NSLog(@"*** LAST TEMPERATURE CAPTURED: %d F", temp);
+
+    // check to see if the app is active - if so, then update UI...
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ((appDelegate.isActive) && (!appDelegate.isBackgrounded)) {
+        [self updateTemperatureDisplay];
+    }
+}
+
+
 
 
 
